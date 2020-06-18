@@ -7,8 +7,46 @@
 - Executa os testes diretamente no navegador alem do terminal
 - É de facil instalação e configuração
 - Pode rodar independente ou com frameworks JavaScript (angular, react, node, ...)
+- Possui um objeto chamado JS global `jasmine` que possui 5 comparadores genericos para utilização
 
+**jasmine.any()**
 
+- Usado para verificar se o valor é de um determinado tipo
+- Pode ser usado para comprar valores reais ou valores utilizando spies (spy)
+- Em spy é util quanndo se deseja verificar se um metodo foi chamado com um argumento de determinado tipo, sem se importar com o seu valor real
+
+**jasmine.anything()**
+
+- Verifica se um objeto é != de `null` ou `undefined`
+- É similar ao `any` porem não verifica o tipo de dado
+- Pode ser utilizado em `spies` para verificar que um determinado valor foi passado como parametro
+
+**jasmine.objectContaining()**
+
+- Verifica se determinada entrada (chave || valor) existe no objeto
+- Recebe como parametro o bloco a ser verificado em um objeto
+- Deve ser usado com Ojbetos {}
+
+**jasmine.arrayContaining()**
+
+- Verifica se determinados valores existem em um array
+- Recebe como parametro um arrau com valores a serem verificados
+
+**jasmine.stringMatching()**
+
+- Verifica se uma string está contida dentro de outra string
+- Tem suporte a expressões regualres
+- Pode ser utilizado com spies
+- Recebe como parametro uma string ou expressao regular
+- É case sensitive
+- O case sensitive pode ser resolvido com expressao regular
+
+**jasmine.clock()**
+
+- Torna sincrono as chamadas do `setTimeout()` e `setInterval()`
+- Deve sempre ser instalado antes das chamadas com a declaração `jasmine.clock().install()`
+- Apos seu uso deve sempre ser removido ao termino da suite / teste com a declaração `jasmine.clock().uninstall()`
+- Executa a operação de chamada com `jasmine.clock().tick` recebendo como parametro o numero de milisegundos
 ## Suites
 
 - Servem para definir o escopo do que está sendo testado
@@ -316,3 +354,14 @@
 - Recebe como parametro o nome do objeto a ser criado, assim como os seus metodos em formato de array
 - Pode ser utilizado quando se precisa de um objeto ao qual não se tem acesso direto
 - Permite utilizar todos os elementos `.and.` do spy
+
+## Comparadores personalizados
+
+- Jasmine permite a criação de comparadores proprios
+- Um objeto com uma função que recebe dois argumentos deve ser criada
+- Os argumentos são `util` e `customEqualityTesters`
+- Uma função `compare` deve ser definida, ele deverá retornar um objeto com a propriedade `boolen` `pass`
+- Uma propriedade `message` contendo a mensagem de erro pode ser adicionada ao objeto de retorno para detalhar a causa da falha
+- O novo comparador deve ser registrado antes do teste atravez do objeto `jasmine.addMatchers()`
+- O `not` está disponivel para as validações
+- É boa pratica documentar o que os seus custom matchers fazem, nem todo mundo é mãe diná para adivinhar
